@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skill_tree/routes/addActivityRoute.dart';
 import 'package:skill_tree/routes/general.dart';
 
 class ActivitiesRoute extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           backgroundColor: foregroundColor,
-          onPressed: _addActivity,
+          onPressed: () => _addActivity(context),
         ),
         body: _displayActivities(),
         drawer: createDrawer(context));
@@ -95,5 +96,8 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
 
   void _addXP() {}
 
-  void _addActivity() {}
+  void _addActivity(context) {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (buildContext) => AddActivityRoute()));
+  }
 }

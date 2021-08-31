@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skill_tree/routes/general.dart';
+import 'addSkillTreeRoute.dart';
 
 class SkillsRoute extends StatefulWidget {
   @override
@@ -67,5 +68,8 @@ class _SkillsRouteState extends State<SkillsRoute> {
         ));
   }
 
-  void _addSkill() {}
+  void _addSkill() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (buildContext) => AddSkillTreeRoute()));
+  }
 }

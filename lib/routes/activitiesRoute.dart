@@ -19,7 +19,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
           onPressed: _addActivity,
         ),
         body: _displayActivities(),
-        drawer: createDrawer());
+        drawer: createDrawer(context));
   }
 
   Widget _displayActivities() {

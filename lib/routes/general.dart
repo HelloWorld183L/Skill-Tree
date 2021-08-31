@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:skill_tree/routes/activitiesRoute.dart';
+import 'package:skill_tree/routes/statisticsRoute.dart';
+import 'package:skill_tree/routes/settingsRoute.dart';
+import 'package:skill_tree/routes/skillsRoute.dart';
 
 const backgroundColor = Color.fromRGBO(22, 25, 37, 1);
 const textColor = Color.fromRGBO(253, 255, 252, 1);
@@ -8,7 +12,7 @@ const foregroundColor = Color.fromRGBO(48, 51, 61, 1);
 
 const textStyle = const TextStyle(color: textColor);
 
-Widget createDrawer() {
+Widget createDrawer(buildContext) {
   return Drawer(
       child: ListView(children: <Widget>[
     const DrawerHeader(
@@ -22,24 +26,34 @@ Widget createDrawer() {
     ListTile(
       leading: Icon(Icons.computer),
       title: Text('Activities'),
-      onTap: _navigate,
+      onTap: () {
+        Navigator.push(buildContext,
+            MaterialPageRoute(builder: (buildContext) => ActivitiesRoute()));
+      },
     ),
     ListTile(
       leading: Icon(Icons.piano),
       title: Text('Skills'),
-      onTap: _navigate,
+      onTap: () {
+        Navigator.push(buildContext,
+            MaterialPageRoute(builder: (buildContext) => SkillsRoute()));
+      },
     ),
     ListTile(
       leading: Icon(Icons.auto_graph),
       title: Text('Statistics'),
-      onTap: _navigate,
+      onTap: () {
+        Navigator.push(buildContext,
+            MaterialPageRoute(builder: (buildContext) => StatisticsRoute()));
+      },
     ),
     ListTile(
       leading: Icon(Icons.settings),
       title: Text('Settings'),
-      onTap: _navigate,
+      onTap: () {
+        Navigator.push(buildContext,
+            MaterialPageRoute(builder: (buildContext) => SettingsRoute()));
+      },
     ),
   ]));
 }
-
-void _navigate() {}

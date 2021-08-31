@@ -24,41 +24,43 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
 
   Widget _displayActivities() {
     return Container(
-        child: Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Expanded(
-            child: ListView.builder(
-                itemCount: 3,
-                itemBuilder: (context, i) {
-                  return Container(
-                      padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                      height: 94,
-                      width: double.maxFinite,
-                      child: Card(
-                          elevation: 5,
-                          color: backgroundColor,
-                          child: Padding(
-                              padding: const EdgeInsets.only(left: 10, top: 5),
-                              child: Column(
-                                children: <Widget>[
-                                  Row(
-                                    children: <Widget>[
-                                      activityName(),
-                                      Spacer(),
-                                      activityXPIncrease(),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                    ],
-                                  ),
-                                  addXPTxt()
-                                ],
-                              ))));
-                }))
-      ],
-    ));
+      child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Expanded(
+                child: ListView.builder(
+                    itemCount: 3,
+                    itemBuilder: (context, i) => activitiesContainer()))
+          ]),
+    );
+  }
+
+  Widget activitiesContainer() {
+    return Container(
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+        height: 94,
+        width: double.maxFinite,
+        child: Card(
+            elevation: 5,
+            color: backgroundColor,
+            child: Padding(
+                padding: const EdgeInsets.only(left: 10, top: 5),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        activityName(),
+                        Spacer(),
+                        activityXPIncrease(),
+                        SizedBox(
+                          width: 10,
+                        ),
+                      ],
+                    ),
+                    addXPTxt()
+                  ],
+                ))));
   }
 
   Widget addXPTxt() {

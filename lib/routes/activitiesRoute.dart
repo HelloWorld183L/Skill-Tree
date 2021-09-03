@@ -17,7 +17,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           backgroundColor: foregroundColor,
-          onPressed: () => _addActivity(context),
+          onPressed: _addActivity,
         ),
         body: _displayActivities(),
         drawer: createDrawer(context));
@@ -96,7 +96,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
 
   void _addXP() {}
 
-  void _addActivity(context) {
+  void _addActivity() {
     Navigator.push(context,
         MaterialPageRoute(builder: (buildContext) => AddActivityRoute()));
   }

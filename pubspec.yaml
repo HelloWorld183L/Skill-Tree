@@ -1,5 +1,5 @@
 name: skill_tree
-description: A new Flutter project.
+description: Flutter mobile app to help gamify learning via skill trees.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -25,6 +25,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.3
   english_words: ^4.0.0
+  json_annotation: ^4.0.1
+  build_runner: ^2.1.2
 
 dev_dependencies:
   flutter_test:

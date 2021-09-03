@@ -1,0 +1,16 @@
+{
+    "data":[
+        {
+            "name": "Programming",
+            "xpGain": "50",
+            "difficulty": "Medium",
+            "skill": "Programming"
+        },
+        {
+            "name": "Chess",
+            "xpGain": "100",
+            "difficulty": "Easy",
+            "skill": "Chess"
+        }
+    ]
+}

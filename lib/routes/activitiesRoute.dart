@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:skill_tree/routes/addActivityRoute.dart';
 import 'package:skill_tree/routes/general.dart';
+import 'package:skill_tree/models.dart';
+import 'package:path/path.dart' as path;
 
 class ActivitiesRoute extends StatefulWidget {
   @override
@@ -10,6 +14,17 @@ class ActivitiesRoute extends StatefulWidget {
 class _ActivitiesRouteState extends State<ActivitiesRoute> {
   @override
   Widget build(BuildContext context) {
+    // Deserialize the list of activities the user already has
+    // itemCount = list.length
+    // Pass in the activities list to then be indexed through to _displayActivities()
+    // NOTE: Activities should be deserialized each time the Widget is viewed...
+    // but this is not scalable for performance, keep it simple tho
+
+    var deserializedActivities = jsonDecode(
+        '{"data":[{"name": "Programming","xpGain": "50","difficulty": "Medium","skill": "Programming"},{"name": "Chess","xpGain": "100","difficulty": "Easy","skill": "Chess"}]}');
+    var activities =
+        deserializedActivities.map((i) => Activity.fromJson(i)).toList();
+
     return Scaffold(
         appBar: AppBar(
           title: const Text('Activities'),
@@ -19,11 +34,11 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
           backgroundColor: foregroundColor,
           onPressed: _addActivity,
         ),
-        body: _displayActivities(),
+        body: _displayActivities(activities),
         drawer: createDrawer(context));
   }
 
-  Widget _displayActivities() {
+  Widget _displayActivities(List<Activity> activities) {
     return Container(
       child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -31,13 +46,14 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
           children: [
             Expanded(
                 child: ListView.builder(
-                    itemCount: 0,
-                    itemBuilder: (context, i) => activitiesContainer()))
+                    itemCount: 1,
+                    itemBuilder: (context, i) =>
+                        activitiesContainer(activities[i])))
           ]),
     );
   }
 
-  Widget activitiesContainer() {
+  Widget activitiesContainer(Activity activity) {
     return Container(
         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         height: 94,
@@ -51,9 +67,9 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
                   children: [
                     Row(
                       children: [
-                        activityName(),
+                        activityName(activity.name),
                         Spacer(),
-                        activityXPIncrease(),
+                        activityXPIncrease(activity.xpGain),
                         SizedBox(
                           width: 10,
                         ),
@@ -76,21 +92,20 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
     );
   }
 
-  Widget activityName() {
+  Widget activityName(String name) {
     return Align(
         alignment: Alignment.center,
         child: RichText(
             text: TextSpan(
-                text: 'Activity name (0/1000)',
-                style: TextStyle(color: textColor, fontSize: 20))));
+                text: name, style: TextStyle(color: textColor, fontSize: 20))));
   }
 
-  Widget activityXPIncrease() {
+  Widget activityXPIncrease(int xpGain) {
     return Align(
         alignment: Alignment.centerRight,
         child: RichText(
             text: TextSpan(
-                text: '+0 XP',
+                text: '+$xpGain XP',
                 style: TextStyle(color: greenColor, fontSize: 16))));
   }
 

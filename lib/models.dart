@@ -1,3 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'models.g.dart';
+
 class PerkNode {
   late String name;
   late int levelRequirement;
@@ -15,11 +19,16 @@ class Skill {
   late SkillTree skillTree;
 }
 
+@JsonSerializable()
 class Activity {
   late String name;
   late int xpGain;
   late String difficulty;
-  late Skill skill;
-}
+  // TODO: Change the String to Skill
+  late String skill;
 
-enum Difficulty { Easy, Medium, Hard, Brainfuck }
+  Activity(this.name, this.xpGain, this.difficulty);
+
+  factory Activity.fromJson(json) => _$ActivityToJson(json);
+  Map<String, dynamic> toJson() => _$ActivityToJson(this);
+}

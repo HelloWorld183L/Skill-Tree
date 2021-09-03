@@ -57,3 +57,25 @@ Widget createDrawer(buildContext) {
     ),
   ]));
 }
+
+TextFormField createTextField(String placeholderValue) {
+  return TextFormField(
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return "Please enter some text";
+      }
+      return null;
+    },
+    decoration: InputDecoration(hintText: placeholderValue),
+  );
+}
+
+ElevatedButton createBtn(String text, onPressed) {
+  return ElevatedButton(
+    onPressed: onPressed,
+    child: Text(text),
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(foregroundColor),
+    ),
+  );
+}

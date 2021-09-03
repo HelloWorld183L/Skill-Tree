@@ -11,7 +11,8 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
   final difficultyValue = 'Easy';
   final difficulties = ['Easy', 'Medium', 'Hard', 'Brainfuck'];
 
-  final xpRewardValue = '50';
+  final skillValue = 'No skill';
+  final skills = ['No skill'];
 
   @override
   Widget build(BuildContext context) {
@@ -25,40 +26,22 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
   }
 
   Widget _displayForm() {
-    return Form(
-        key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            createTextField('Activity name'),
-            createTextField('XP reward'),
-            createDropdownBtn(difficultyValue, difficulties),
-            TextFormField(
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Please enter some text";
-                }
-                return null;
-              },
-              minLines: 4,
-              maxLines: null,
-              decoration: InputDecoration(hintText: 'Description'),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Activity has been saved.')),
-                    );
-                  }
-                },
-                child: const Text('Save'),
-              ),
-            ),
-          ],
-        ));
+    return Padding(
+        padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 10.0),
+        child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                createTextField('Activity name'),
+                createTextField('XP reward'),
+                createDropdownBtn(difficultyValue, difficulties),
+                createDropdownBtn(skillValue, skills),
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(280.0, 20.0, 0, 0),
+                    child: createBtn('Save', _addActivity)),
+              ],
+            )));
   }
 
   DropdownButtonFormField createDropdownBtn(
@@ -81,15 +64,11 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
     );
   }
 
-  TextFormField createTextField(String placeholderValue) {
-    return TextFormField(
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Please enter some text";
-        }
-        return null;
-      },
-      decoration: InputDecoration(hintText: placeholderValue),
-    );
+  void _addActivity() {
+    if (_formKey.currentState!.validate()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Activity has been saved.')),
+      );
+    }
   }
 }

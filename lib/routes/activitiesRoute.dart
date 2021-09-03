@@ -28,10 +28,10 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
       child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+          children: [
             Expanded(
                 child: ListView.builder(
-                    itemCount: 3,
+                    itemCount: 0,
                     itemBuilder: (context, i) => activitiesContainer()))
           ]),
     );
@@ -48,9 +48,9 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
             child: Padding(
                 padding: const EdgeInsets.only(left: 10, top: 5),
                 child: Column(
-                  children: <Widget>[
+                  children: [
                     Row(
-                      children: <Widget>[
+                      children: [
                         activityName(),
                         Spacer(),
                         activityXPIncrease(),

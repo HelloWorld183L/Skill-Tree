@@ -21,14 +21,17 @@ class Skill {
 
 @JsonSerializable()
 class Activity {
+  @JsonKey(required: true)
   late String name;
-  late int xpGain;
+  @JsonKey(required: true)
+  late String xpGain;
+  @JsonKey(required: true)
   late String difficulty;
-  // TODO: Change the String to Skill
+
   late String skill;
 
   Activity(this.name, this.xpGain, this.difficulty);
 
-  factory Activity.fromJson(json) => _$ActivityToJson(json);
+  factory Activity.fromJson(json) => _$ActivityFromJson(json);
   Map<String, dynamic> toJson() => _$ActivityToJson(this);
 }

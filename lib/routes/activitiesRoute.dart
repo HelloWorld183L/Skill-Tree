@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:skill_tree/routes/addActivityRoute.dart';
-import 'package:skill_tree/routes/general.dart';
+import 'package:skill_tree/general.dart';
 import 'package:skill_tree/models.dart';
 
 class ActivitiesRoute extends StatefulWidget {
@@ -16,10 +16,10 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   @override
   void initState() {
     super.initState();
-    var activitiesJson = _readJson('assets/activities.json');
-    activitiesJson.then((val) {
+    var activitiesJson = readJson('assets/activities.json');
+    activitiesJson.then((json) {
       setState(() {
-        activities = val.map((i) => Activity.fromJson(i)).toList();
+        activities = json.map((i) => Activity.fromJson(i)).toList();
       });
     });
   }
@@ -121,11 +121,5 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   void _addActivity() {
     Navigator.push(context,
         MaterialPageRoute(builder: (buildContext) => AddActivityRoute()));
-  }
-
-  Future<List> _readJson(String jsonPath) async {
-    final response = await DefaultAssetBundle.of(context).loadString(jsonPath);
-    final data = await json.decode(response);
-    return data;
   }
 }

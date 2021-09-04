@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'general.dart';
+import '../general.dart';
 
 class SkillTreeRoute extends StatefulWidget {
   @override

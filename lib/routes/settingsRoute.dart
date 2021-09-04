@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:skill_tree/routes/general.dart';
+import 'package:skill_tree/general.dart';
 
 class SettingsRoute extends StatefulWidget {
   @override

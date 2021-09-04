@@ -8,11 +8,11 @@ part of 'models.dart';
 
 Activity _$ActivityFromJson(Map<String, dynamic> json) {
   $checkKeys(json, requiredKeys: const ['name', 'xpGain', 'difficulty']);
-  return Activity(
-    json['name'] as String,
-    json['xpGain'] as String,
-    json['difficulty'] as String,
-  )..skill = json['skill'] as String;
+  return Activity()
+    ..name = json['name'] as String
+    ..xpGain = json['xpGain'] as String
+    ..difficulty = json['difficulty'] as String
+    ..skill = json['skill'] as String;
 }
 
 Map<String, dynamic> _$ActivityToJson(Activity instance) => <String, dynamic>{

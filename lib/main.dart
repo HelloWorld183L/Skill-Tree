@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'routes/activitiesRoute.dart';
-import 'routes/general.dart';
+import 'general.dart';
 
 void main() => runApp(MyApp());
 

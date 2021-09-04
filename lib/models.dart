@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
@@ -17,6 +21,8 @@ class Skill {
   late int level;
   late int skillCap;
   late SkillTree skillTree;
+
+  Skill();
 }
 
 @JsonSerializable()
@@ -30,7 +36,7 @@ class Activity {
 
   late String skill;
 
-  Activity(this.name, this.xpGain, this.difficulty);
+  Activity();
 
   factory Activity.fromJson(json) => _$ActivityFromJson(json);
   Map<String, dynamic> toJson() => _$ActivityToJson(this);

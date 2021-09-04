@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skill_tree/routes/skillTreeRoute.dart';
-import 'general.dart';
+import '../general.dart';
+import 'package:skill_tree/models.dart';
 
 class AddSkillRoute extends StatefulWidget {
   @override
@@ -9,6 +10,7 @@ class AddSkillRoute extends StatefulWidget {
 
 class _AddSkillRouteState extends State<AddSkillRoute> {
   final _formKey = GlobalKey<FormState>();
+  final _skill = Skill();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,16 @@ class _AddSkillRouteState extends State<AddSkillRoute> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createTextField('Skill name'),
-                createTextField('Skill cap'),
+                createTextField('Skill name', (val) {
+                  setState(() {
+                    _skill.name = val;
+                  });
+                }),
+                createTextField('Skill cap', (val) {
+                  setState(() {
+                    _skill.skillCap = val;
+                  });
+                }),
                 Row(children: [
                   createBtn('Save', _addSkill),
                   Padding(

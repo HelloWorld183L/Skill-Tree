@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'general.dart';
+import 'package:skill_tree/models.dart';
+import '../general.dart';
 
 class AddActivityRoute extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
 
   final skillValue = 'No skill';
   final skills = ['No skill'];
+
+  final _activityToSubmit = Activity();
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +36,21 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createTextField('Activity name'),
-                createTextField('XP reward'),
+                createTextField('Activity name', (val) {
+                  setState(() {
+                    _activityToSubmit.name = val;
+                  });
+                }),
+                createTextField('XP reward', (val) {
+                  setState(() {
+                    _activityToSubmit.xpGain = val;
+                  });
+                }),
                 createDropdownBtn(difficultyValue, difficulties),
                 createDropdownBtn(skillValue, skills),
                 Padding(
                     padding: const EdgeInsets.fromLTRB(280.0, 20.0, 0, 0),
+                    // Grab the field values, serialize the activity
                     child: createBtn('Save', _addActivity)),
               ],
             )));
@@ -65,7 +77,10 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
   }
 
   void _addActivity() {
-    if (_formKey.currentState!.validate()) {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      form.save();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Activity has been saved.')),
       );

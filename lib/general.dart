@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:skill_tree/routes/activitiesRoute.dart';
 import 'package:skill_tree/routes/statisticsRoute.dart';
 import 'package:skill_tree/routes/settingsRoute.dart';
 import 'package:skill_tree/routes/skillsRoute.dart';
+import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 const backgroundColor = Color.fromRGBO(22, 25, 37, 1);
 const textColor = Color.fromRGBO(253, 255, 252, 1);
@@ -58,7 +62,7 @@ Widget createDrawer(buildContext) {
   ]));
 }
 
-TextFormField createTextField(String placeholderValue) {
+TextFormField createTextField(String placeholderValue, onSaved) {
   return TextFormField(
     validator: (value) {
       if (value == null || value.isEmpty) {
@@ -67,6 +71,7 @@ TextFormField createTextField(String placeholderValue) {
       return null;
     },
     decoration: InputDecoration(hintText: placeholderValue),
+    onSaved: onSaved,
   );
 }
 
@@ -78,4 +83,22 @@ ElevatedButton createBtn(String text, onPressed) {
       backgroundColor: MaterialStateProperty.all(foregroundColor),
     ),
   );
+}
+
+Future<List> readJson(String jsonPath) async {
+  final response = await rootBundle.loadString(jsonPath);
+  final data = await jsonDecode(response);
+
+  return data;
+}
+
+Future<void> saveJson(String fileName, List newJsonData) async {
+  final dirPath = await _getDirPath();
+  final jsonFile = File('$dirPath/$fileName');
+  jsonFile.writeAsString(json.encode(newJsonData));
+}
+
+Future<String> _getDirPath() async {
+  final dir = await getApplicationDocumentsDirectory();
+  return dir.path;
 }

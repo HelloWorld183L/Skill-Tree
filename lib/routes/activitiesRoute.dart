@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:skill_tree/routes/addActivityRoute.dart';
 import 'package:skill_tree/routes/general.dart';
 import 'package:skill_tree/models.dart';
-import 'package:path/path.dart' as path;
 
 class ActivitiesRoute extends StatefulWidget {
   @override
@@ -12,6 +11,19 @@ class ActivitiesRoute extends StatefulWidget {
 }
 
 class _ActivitiesRouteState extends State<ActivitiesRoute> {
+  List<Activity> activities = [];
+
+  @override
+  void initState() {
+    super.initState();
+    var activitiesJson = _readJson('assets/activities.json');
+    activitiesJson.then((val) {
+      setState(() {
+        activities = val.map((i) => Activity.fromJson(i)).toList();
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Deserialize the list of activities the user already has
@@ -19,11 +31,6 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
     // Pass in the activities list to then be indexed through to _displayActivities()
     // NOTE: Activities should be deserialized each time the Widget is viewed...
     // but this is not scalable for performance, keep it simple tho
-
-    var deserializedActivities = jsonDecode(
-        '{"data":[{"name": "Programming","xpGain": "50","difficulty": "Medium","skill": "Programming"},{"name": "Chess","xpGain": "100","difficulty": "Easy","skill": "Chess"}]}');
-    var activities =
-        deserializedActivities.map((i) => Activity.fromJson(i)).toList();
 
     return Scaffold(
         appBar: AppBar(
@@ -46,7 +53,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
           children: [
             Expanded(
                 child: ListView.builder(
-                    itemCount: 1,
+                    itemCount: activities.length,
                     itemBuilder: (context, i) =>
                         activitiesContainer(activities[i])))
           ]),
@@ -100,7 +107,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
                 text: name, style: TextStyle(color: textColor, fontSize: 20))));
   }
 
-  Widget activityXPIncrease(int xpGain) {
+  Widget activityXPIncrease(String xpGain) {
     return Align(
         alignment: Alignment.centerRight,
         child: RichText(
@@ -114,5 +121,11 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   void _addActivity() {
     Navigator.push(context,
         MaterialPageRoute(builder: (buildContext) => AddActivityRoute()));
+  }
+
+  Future<List> _readJson(String jsonPath) async {
+    final response = await DefaultAssetBundle.of(context).loadString(jsonPath);
+    final data = await json.decode(response);
+    return data;
   }
 }

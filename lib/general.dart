@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:skill_tree/models.dart';
 import 'package:skill_tree/repositories/filePersistence.dart';
 import 'package:skill_tree/routes/activitiesRoute.dart';
 import 'package:skill_tree/routes/statisticsRoute.dart';
 import 'package:skill_tree/routes/settingsRoute.dart';
 import 'package:skill_tree/routes/skillsRoute.dart';
-import 'dart:convert';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 const backgroundColor = Color.fromRGBO(22, 25, 37, 1);
 const textColor = Color.fromRGBO(253, 255, 252, 1);

@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'models.g.dart';
@@ -20,6 +16,8 @@ class Skill {
   late String name;
   late int level;
   late int skillCap;
+  late int currentXp;
+  late int xpCap;
   late SkillTree skillTree;
 
   Skill();

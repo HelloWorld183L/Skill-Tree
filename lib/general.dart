@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:skill_tree/models.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 import 'package:skill_tree/routes/activitiesRoute.dart';
 import 'package:skill_tree/routes/statisticsRoute.dart';
 import 'package:skill_tree/routes/settingsRoute.dart';
@@ -31,8 +33,11 @@ Widget createDrawer(buildContext) {
       leading: Icon(Icons.computer),
       title: Text('Activities'),
       onTap: () {
-        Navigator.push(buildContext,
-            MaterialPageRoute(builder: (buildContext) => ActivitiesRoute()));
+        Navigator.push(
+            buildContext,
+            MaterialPageRoute(
+                builder: (buildContext) =>
+                    ActivitiesRoute(storage: FilePersistence())));
       },
     ),
     ListTile(
@@ -83,22 +88,4 @@ ElevatedButton createBtn(String text, onPressed) {
       backgroundColor: MaterialStateProperty.all(foregroundColor),
     ),
   );
-}
-
-Future<List> readJson(String jsonPath) async {
-  final response = await rootBundle.loadString(jsonPath);
-  final data = await jsonDecode(response);
-
-  return data;
-}
-
-Future<void> saveJson(String fileName, List newJsonData) async {
-  final dirPath = await _getDirPath();
-  final jsonFile = File('$dirPath/$fileName');
-  jsonFile.writeAsString(json.encode(newJsonData));
-}
-
-Future<String> _getDirPath() async {
-  final dir = await getApplicationDocumentsDirectory();
-  return dir.path;
 }

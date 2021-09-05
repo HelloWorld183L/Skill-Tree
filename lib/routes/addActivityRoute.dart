@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:skill_tree/models.dart';
 import '../general.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 
 class AddActivityRoute extends StatefulWidget {
+  const AddActivityRoute({Key? key, required this.storage}) : super(key: key);
+
+  final FilePersistence storage;
+
   @override
   _AddActivityRouteState createState() => _AddActivityRouteState();
 }
@@ -77,6 +82,8 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
   }
 
   void _addActivity() {
+    _activityToSubmit.difficulty = difficultyValue;
+    _activityToSubmit.skill = skillValue;
     final form = _formKey.currentState;
 
     if (form!.validate()) {
@@ -85,5 +92,7 @@ class _AddActivityRouteState extends State<AddActivityRoute> {
         const SnackBar(content: Text('Activity has been saved.')),
       );
     }
+
+    widget.storage.saveObject(_activityToSubmit.toJson(), 'activities.json');
   }
 }

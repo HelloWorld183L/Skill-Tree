@@ -1,11 +1,14 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 import 'package:skill_tree/routes/addActivityRoute.dart';
 import 'package:skill_tree/general.dart';
 import 'package:skill_tree/models.dart';
 
 class ActivitiesRoute extends StatefulWidget {
+  const ActivitiesRoute({Key? key, required this.storage}) : super(key: key);
+
+  final FilePersistence storage;
+
   @override
   _ActivitiesRouteState createState() => _ActivitiesRouteState();
 }
@@ -16,10 +19,12 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   @override
   void initState() {
     super.initState();
-    var activitiesJson = readJson('assets/activities.json');
+    var activitiesJson = widget.storage.getJsonFile('activities.json');
     activitiesJson.then((json) {
       setState(() {
-        activities = json.map((i) => Activity.fromJson(i)).toList();
+        for (var map in json) {
+          activities.add(Activity.fromJson(map));
+        }
       });
     });
   }
@@ -119,7 +124,10 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   void _addXP() {}
 
   void _addActivity() {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (buildContext) => AddActivityRoute()));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (buildContext) =>
+                AddActivityRoute(storage: FilePersistence())));
   }
 }

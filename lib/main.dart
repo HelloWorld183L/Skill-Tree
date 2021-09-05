@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 import 'routes/activitiesRoute.dart';
 import 'general.dart';
 
@@ -12,6 +13,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: backgroundColor,
         ),
-        home: ActivitiesRoute());
+        home: ActivitiesRoute(storage: FilePersistence()));
   }
 }

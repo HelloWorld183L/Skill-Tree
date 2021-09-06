@@ -62,7 +62,8 @@ Widget createDrawer(buildContext) {
   ]));
 }
 
-TextFormField createTextField(String placeholderValue, onSaved) {
+TextFormField createTextField(
+    String placeholderValue, String initialValue, onSaved) {
   return TextFormField(
     validator: (value) {
       if (value == null || value.isEmpty) {
@@ -72,6 +73,7 @@ TextFormField createTextField(String placeholderValue, onSaved) {
     },
     decoration: InputDecoration(hintText: placeholderValue),
     onSaved: onSaved,
+    initialValue: initialValue,
   );
 }
 

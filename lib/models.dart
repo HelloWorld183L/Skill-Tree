@@ -27,7 +27,7 @@ class Skill {
 @JsonSerializable()
 class Activity {
   @JsonKey(required: true)
-  late int _id = 0;
+  late int id = 0;
   @JsonKey(required: true)
   late String name = '';
   @JsonKey(required: true)
@@ -42,7 +42,7 @@ class Activity {
     final objectLengthFuture =
         filePersistence.getJsonObjectLength('activities.json');
     objectLengthFuture.then((value) {
-      _id = value + 1;
+      id = value + 1;
     });
   }
 

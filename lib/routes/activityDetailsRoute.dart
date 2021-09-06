@@ -3,16 +3,17 @@ import 'package:skill_tree/models.dart';
 import '../general.dart';
 import 'package:skill_tree/repositories/filePersistence.dart';
 
-class AddActivityRoute extends StatefulWidget {
-  const AddActivityRoute({Key? key, required this.storage}) : super(key: key);
+class ActivityDetailsRoute extends StatefulWidget {
+  const ActivityDetailsRoute({Key? key, required this.storage})
+      : super(key: key);
 
   final FilePersistence storage;
 
   @override
-  _AddActivityRouteState createState() => _AddActivityRouteState();
+  _ActivityDetailsRouteState createState() => _ActivityDetailsRouteState();
 }
 
-class _AddActivityRouteState extends State<AddActivityRoute> {
+class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   final _formKey = GlobalKey<FormState>();
   final difficultyValue = 'Easy';
   final difficulties = ['Easy', 'Medium', 'Hard', 'Brainfuck'];

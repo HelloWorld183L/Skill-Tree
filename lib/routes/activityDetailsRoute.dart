@@ -37,8 +37,7 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   }
 
   Widget _displayForm() {
-    _activityToSubmit = widget.existingActivity!;
-    difficultyValue = widget.existingActivity!.difficulty;
+    _activityToSubmit = widget.existingActivity ?? _activityToSubmit;
 
     return Padding(
         padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 10.0),
@@ -47,20 +46,18 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createTextField('Activity name', widget.existingActivity!.name,
-                    (val) {
+                createTextField('Activity name', _activityToSubmit.name, (val) {
                   setState(() {
                     if (_activityToSubmit.name.isEmpty) {
-                      _activityToSubmit.name = widget.existingActivity!.name;
+                      _activityToSubmit.name = _activityToSubmit.name;
                     }
                     _activityToSubmit.name = val;
                   });
                 }),
-                createTextField('XP reward', widget.existingActivity!.xpGain,
-                    (val) {
+                createTextField('XP reward', _activityToSubmit.xpGain, (val) {
                   setState(() {
                     if (_activityToSubmit.xpGain.isEmpty) {
-                      _activityToSubmit.name = widget.existingActivity!.xpGain;
+                      _activityToSubmit.xpGain = _activityToSubmit.xpGain;
                     }
                     _activityToSubmit.xpGain = val;
                   });
@@ -105,8 +102,8 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Activity has been saved.')),
       );
-    }
 
-    widget.storage.saveObject(_activityToSubmit.toJson(), 'activities.json');
+      widget.storage.saveObject(_activityToSubmit.toJson(), 'activities.json');
+    }
   }
 }

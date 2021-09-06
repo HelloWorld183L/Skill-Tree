@@ -23,7 +23,8 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
     activitiesJson.then((json) {
       setState(() {
         for (var map in json) {
-          activities.add(Activity.fromJson(map));
+          var activity = Activity.fromJson(map);
+          activities.add(activity);
         }
       });
     });
@@ -31,12 +32,6 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
 
   @override
   Widget build(BuildContext context) {
-    // Deserialize the list of activities the user already has
-    // itemCount = list.length
-    // Pass in the activities list to then be indexed through to _displayActivities()
-    // NOTE: Activities should be deserialized each time the Widget is viewed...
-    // but this is not scalable for performance, keep it simple tho
-
     return Scaffold(
         appBar: AppBar(
           title: const Text('Activities'),
@@ -44,13 +39,13 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           backgroundColor: foregroundColor,
-          onPressed: _activityDetails,
+          onPressed: () => _activityDetails(),
         ),
-        body: _displayActivities(activities),
+        body: _displayActivities(),
         drawer: createDrawer(context));
   }
 
-  Widget _displayActivities(List<Activity> activities) {
+  Widget _displayActivities() {
     return Container(
       child: Column(
           mainAxisSize: MainAxisSize.max,
@@ -88,18 +83,36 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
                             ),
                           ],
                         ),
-                        addXPTxt()
+                        Row(
+                          children: [addXPBtn(), _deleteActivityBtn(activity)],
+                        )
                       ],
                     )))));
   }
 
-  Widget addXPTxt() {
+  Widget addXPBtn() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         TextButton(
           child: const Text('Add XP'),
           onPressed: _addXP,
+        ),
+      ],
+    );
+  }
+
+  Widget _deleteActivityBtn(Activity activity) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        TextButton(
+          child:
+              const Text('Delete activity', style: TextStyle(color: textColor)),
+          onPressed: () => _deleteActivity(activity, activities),
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red),
+          ),
         ),
       ],
     );
@@ -130,5 +143,12 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         MaterialPageRoute(
             builder: (buildContext) => ActivityDetailsRoute(
                 storage: FilePersistence(), existingActivity: activity)));
+  }
+
+  void _deleteActivity(Activity activity, List<Activity> activities) {
+    widget.storage.deleteObject(activity.toJson(), 'activities.json');
+    setState(() {
+      activities.remove(activity);
+    });
   }
 }

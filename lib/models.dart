@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 
 part 'models.g.dart';
 
@@ -26,15 +27,24 @@ class Skill {
 @JsonSerializable()
 class Activity {
   @JsonKey(required: true)
-  late String name;
+  late int _id = 0;
   @JsonKey(required: true)
-  late String xpGain;
+  late String name = '';
   @JsonKey(required: true)
-  late String difficulty;
+  late String xpGain = '';
+  @JsonKey(required: true)
+  late String difficulty = '';
 
-  late String skill;
+  late String skill = '';
 
-  Activity();
+  Activity() {
+    final filePersistence = FilePersistence();
+    final objectLengthFuture =
+        filePersistence.getJsonObjectLength('activities.json');
+    objectLengthFuture.then((value) {
+      _id = value + 1;
+    });
+  }
 
   factory Activity.fromJson(json) => _$ActivityFromJson(json);
   Map<String, dynamic> toJson() => _$ActivityToJson(this);

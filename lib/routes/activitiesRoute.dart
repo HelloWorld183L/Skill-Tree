@@ -70,26 +70,27 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         height: 94,
         width: double.maxFinite,
-        child: Card(
-            elevation: 5,
+        child: Material(
             color: backgroundColor,
-            child: Padding(
-                padding: const EdgeInsets.only(left: 10, top: 5),
-                child: Column(
-                  children: [
-                    Row(
+            child: InkWell(
+                onTap: () => {},
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 10, top: 5),
+                    child: Column(
                       children: [
-                        activityName(activity.name),
-                        Spacer(),
-                        activityXPIncrease(activity.xpGain),
-                        SizedBox(
-                          width: 10,
+                        Row(
+                          children: [
+                            activityName(activity.name),
+                            Spacer(),
+                            activityXPIncrease(activity.xpGain),
+                            SizedBox(
+                              width: 10,
+                            ),
+                          ],
                         ),
+                        addXPTxt()
                       ],
-                    ),
-                    addXPTxt()
-                  ],
-                ))));
+                    )))));
   }
 
   Widget addXPTxt() {

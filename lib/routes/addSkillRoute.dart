@@ -30,12 +30,12 @@ class _AddSkillRouteState extends State<AddSkillRoute> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createTextField('Skill name', (val) {
+                createTextField('Skill name', '', (val) {
                   setState(() {
                     _skill.name = val;
                   });
                 }),
-                createTextField('Skill cap', (val) {
+                createTextField('Skill cap', '', (val) {
                   setState(() {
                     _skill.skillCap = val;
                   });

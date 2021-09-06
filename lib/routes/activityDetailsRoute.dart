@@ -4,10 +4,12 @@ import '../general.dart';
 import 'package:skill_tree/repositories/filePersistence.dart';
 
 class ActivityDetailsRoute extends StatefulWidget {
-  const ActivityDetailsRoute({Key? key, required this.storage})
+  const ActivityDetailsRoute(
+      {Key? key, required this.storage, this.existingActivity})
       : super(key: key);
 
   final FilePersistence storage;
+  final Activity? existingActivity;
 
   @override
   _ActivityDetailsRouteState createState() => _ActivityDetailsRouteState();
@@ -15,19 +17,19 @@ class ActivityDetailsRoute extends StatefulWidget {
 
 class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   final _formKey = GlobalKey<FormState>();
-  final difficultyValue = 'Easy';
+  var difficultyValue = 'Easy';
   final difficulties = ['Easy', 'Medium', 'Hard', 'Brainfuck'];
 
-  final skillValue = 'No skill';
+  var skillValue = 'No skill';
   final skills = ['No skill'];
 
-  final _activityToSubmit = Activity();
+  var _activityToSubmit = Activity();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add a new activity'),
+        title: const Text('Activity details'),
       ),
       body: _displayForm(),
       drawer: createDrawer(context),
@@ -35,6 +37,9 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   }
 
   Widget _displayForm() {
+    _activityToSubmit = widget.existingActivity!;
+    difficultyValue = widget.existingActivity!.difficulty;
+
     return Padding(
         padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 10.0),
         child: Form(
@@ -42,13 +47,21 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                createTextField('Activity name', (val) {
+                createTextField('Activity name', widget.existingActivity!.name,
+                    (val) {
                   setState(() {
+                    if (_activityToSubmit.name.isEmpty) {
+                      _activityToSubmit.name = widget.existingActivity!.name;
+                    }
                     _activityToSubmit.name = val;
                   });
                 }),
-                createTextField('XP reward', (val) {
+                createTextField('XP reward', widget.existingActivity!.xpGain,
+                    (val) {
                   setState(() {
+                    if (_activityToSubmit.xpGain.isEmpty) {
+                      _activityToSubmit.name = widget.existingActivity!.xpGain;
+                    }
                     _activityToSubmit.xpGain = val;
                   });
                 }),
@@ -57,7 +70,7 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(280.0, 20.0, 0, 0),
                     // Grab the field values, serialize the activity
-                    child: createBtn('Save', _addActivity)),
+                    child: createBtn('Save', _saveActivity)),
               ],
             )));
   }
@@ -82,7 +95,7 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
     );
   }
 
-  void _addActivity() {
+  void _saveActivity() {
     _activityToSubmit.difficulty = difficultyValue;
     _activityToSubmit.skill = skillValue;
     final form = _formKey.currentState;

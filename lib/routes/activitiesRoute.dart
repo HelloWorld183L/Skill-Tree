@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:skill_tree/repositories/filePersistence.dart';
-import 'package:skill_tree/routes/addActivityRoute.dart';
+import 'package:skill_tree/routes/activityDetailsRoute.dart';
 import 'package:skill_tree/general.dart';
 import 'package:skill_tree/models.dart';
 
@@ -44,7 +44,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
           backgroundColor: foregroundColor,
-          onPressed: _addActivity,
+          onPressed: _activityDetails,
         ),
         body: _displayActivities(activities),
         drawer: createDrawer(context));
@@ -73,7 +73,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         child: Material(
             color: backgroundColor,
             child: InkWell(
-                onTap: () => {},
+                onTap: () => _activityDetails(activity: activity),
                 child: Padding(
                     padding: const EdgeInsets.only(left: 10, top: 5),
                     child: Column(
@@ -124,11 +124,11 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
 
   void _addXP() {}
 
-  void _addActivity() {
+  void _activityDetails({Activity? activity}) {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (buildContext) =>
-                AddActivityRoute(storage: FilePersistence())));
+            builder: (buildContext) => ActivityDetailsRoute(
+                storage: FilePersistence(), existingActivity: activity)));
   }
 }

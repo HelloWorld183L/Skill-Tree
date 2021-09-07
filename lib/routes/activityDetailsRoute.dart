@@ -23,8 +23,6 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   var skillValue = 'No skill';
   final skills = ['No skill'];
 
-  var _activityToSubmit = Activity();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +35,7 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
   }
 
   Widget _displayForm() {
-    _activityToSubmit = widget.existingActivity ?? _activityToSubmit;
+    var _activityToSubmit = widget.existingActivity ?? Activity();
 
     return Padding(
         padding: EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 10.0),
@@ -67,7 +65,8 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
                 Padding(
                     padding: const EdgeInsets.fromLTRB(280.0, 20.0, 0, 0),
                     // Grab the field values, serialize the activity
-                    child: createBtn('Save', _saveActivity)),
+                    child: createBtn(
+                        'Save', () => _saveActivity(_activityToSubmit))),
               ],
             )));
   }
@@ -92,9 +91,9 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
     );
   }
 
-  void _saveActivity() {
-    _activityToSubmit.difficulty = difficultyValue;
-    _activityToSubmit.skill = skillValue;
+  void _saveActivity(Activity activity) {
+    activity.difficulty = difficultyValue;
+    activity.skill = skillValue;
     final form = _formKey.currentState;
 
     if (form!.validate()) {
@@ -103,7 +102,7 @@ class _ActivityDetailsRouteState extends State<ActivityDetailsRoute> {
         const SnackBar(content: Text('Activity has been saved.')),
       );
 
-      widget.storage.saveObject(_activityToSubmit.toJson(), 'activities.json');
+      widget.storage.saveObject(activity.toJson(), 'activities.json');
     }
   }
 }

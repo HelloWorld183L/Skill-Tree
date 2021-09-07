@@ -41,8 +41,11 @@ class Activity {
     final filePersistence = FilePersistence();
     final objectLengthFuture =
         filePersistence.getJsonObjectLength('activities.json');
+    // BE WARNED. This is concurrency territory
+    // For some reason, .then gets called TWICE (skipping past the above code) and I have NO IDEA WHY?!?!?!?!?!
+    // https://flutterigniter.com/future-async-called-multiple-times/ possible explanation
     objectLengthFuture.then((value) {
-      id = value + 1;
+      if (id == 0) id = value + 1;
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:skill_tree/repositories/filePersistence.dart';
 import 'package:skill_tree/routes/activityDetailsRoute.dart';
 import 'package:skill_tree/general.dart';
@@ -15,10 +16,13 @@ class ActivitiesRoute extends StatefulWidget {
 
 class _ActivitiesRouteState extends State<ActivitiesRoute> {
   List<Activity> activities = [];
+  final clearDocuments = false;
 
   @override
   void initState() {
     super.initState();
+    if (clearDocuments) clearAppDocs();
+
     var activitiesJson = widget.storage.getJsonFile('activities.json');
     activitiesJson.then((json) {
       setState(() {
@@ -150,5 +154,10 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
     setState(() {
       activities.remove(activity);
     });
+  }
+
+  Future<void> clearAppDocs() async {
+    final appDir = await getApplicationDocumentsDirectory();
+    appDir.deleteSync(recursive: true);
   }
 }

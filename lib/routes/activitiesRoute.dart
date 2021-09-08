@@ -7,7 +7,6 @@ import 'package:skill_tree/models.dart';
 
 class ActivitiesRoute extends StatefulWidget {
   const ActivitiesRoute({Key? key, required this.storage}) : super(key: key);
-
   final FilePersistence storage;
 
   @override
@@ -21,7 +20,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
   @override
   void initState() {
     super.initState();
-    if (clearDocuments) clearAppDocs();
+    if (clearDocuments) _clearAppDocs();
 
     var activitiesJson = widget.storage.getJsonFile('activities.json');
     activitiesJson.then((json) {
@@ -146,7 +145,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
         context,
         MaterialPageRoute(
             builder: (buildContext) => ActivityDetailsRoute(
-                storage: FilePersistence(), existingActivity: activity)));
+                storage: widget.storage, existingActivity: activity)));
   }
 
   void _deleteActivity(Activity activity, List<Activity> activities) {
@@ -156,7 +155,7 @@ class _ActivitiesRouteState extends State<ActivitiesRoute> {
     });
   }
 
-  Future<void> clearAppDocs() async {
+  Future<void> _clearAppDocs() async {
     final appDir = await getApplicationDocumentsDirectory();
     appDir.deleteSync(recursive: true);
   }

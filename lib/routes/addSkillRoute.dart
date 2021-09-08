@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:skill_tree/repositories/filePersistence.dart';
 import 'package:skill_tree/routes/skillTreeRoute.dart';
 import '../general.dart';
 import 'package:skill_tree/models.dart';
 
 class AddSkillRoute extends StatefulWidget {
+  const AddSkillRoute({Key? key, required this.storage}) : super(key: key);
+
+  final FilePersistence storage;
+
   @override
   _AddSkillRouteState createState() => _AddSkillRouteState();
 }
@@ -37,11 +42,11 @@ class _AddSkillRouteState extends State<AddSkillRoute> {
                 }),
                 createTextField('Skill cap', '', (val) {
                   setState(() {
-                    _skill.skillCap = val;
+                    _skill.skillCap = int.parse(val);
                   });
                 }),
                 Row(children: [
-                  createBtn('Save', _addSkill),
+                  createBtn('Save', () => _addSkill(_skill)),
                   Padding(
                       padding: const EdgeInsets.fromLTRB(166, 0, 0, 0),
                       child: createBtn(
@@ -58,5 +63,16 @@ class _AddSkillRouteState extends State<AddSkillRoute> {
             )));
   }
 
-  void _addSkill() {}
+  void _addSkill(Skill skill) {
+    final form = _formKey.currentState;
+
+    if (form!.validate()) {
+      form.save();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Skill has been saved.')),
+      );
+
+      widget.storage.saveObject(skill.toJson(), 'skills.json');
+    }
+  }
 }

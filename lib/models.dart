@@ -13,15 +13,33 @@ class SkillTree {
   late PerkNode headNode;
 }
 
+@JsonSerializable()
 class Skill {
-  late String name;
-  late int level;
-  late int skillCap;
-  late int currentXp;
-  late int xpCap;
-  late SkillTree skillTree;
+  @JsonKey(required: true)
+  late int id = 0;
+  @JsonKey(required: true)
+  late String name = '';
+  @JsonKey(required: true)
+  late int level = 1;
+  @JsonKey(required: true)
+  late int skillCap = 100;
+  @JsonKey(required: true)
+  late int currentXp = 0;
+  @JsonKey(required: true)
+  late int xpCap = 100;
+  //late SkillTree skillTree;
 
-  Skill();
+  Skill() {
+    final filePersistence = FilePersistence();
+    final objectLengthFuture =
+        filePersistence.getJsonObjectLength('skills.json');
+    objectLengthFuture.then((value) {
+      if (id == 0) id = value + 1;
+    });
+  }
+
+  factory Skill.fromJson(json) => _$SkillFromJson(json);
+  Map<String, dynamic> toJson() => _$SkillToJson(this);
 }
 
 @JsonSerializable()

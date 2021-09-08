@@ -14,6 +14,8 @@ const foregroundColor = Color.fromRGBO(48, 51, 61, 1);
 const textStyle = const TextStyle(color: textColor);
 
 Widget createDrawer(buildContext) {
+  var filePersistence = FilePersistence();
+
   return Drawer(
       child: ListView(children: <Widget>[
     const DrawerHeader(
@@ -32,15 +34,18 @@ Widget createDrawer(buildContext) {
             buildContext,
             MaterialPageRoute(
                 builder: (buildContext) =>
-                    ActivitiesRoute(storage: FilePersistence())));
+                    ActivitiesRoute(storage: filePersistence)));
       },
     ),
     ListTile(
       leading: Icon(Icons.piano),
       title: Text('Skills'),
       onTap: () {
-        Navigator.push(buildContext,
-            MaterialPageRoute(builder: (buildContext) => SkillsRoute()));
+        Navigator.push(
+            buildContext,
+            MaterialPageRoute(
+                builder: (buildContext) =>
+                    SkillsRoute(storage: filePersistence)));
       },
     ),
     ListTile(
